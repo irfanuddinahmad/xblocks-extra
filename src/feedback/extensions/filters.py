@@ -1,6 +1,7 @@
 """
 Open edX Filters needed for instructor dashboard integration.
 """
+
 import importlib.resources
 
 from crum import get_current_request
@@ -29,9 +30,7 @@ TEMPLATE_CATEGORY = "feedback_instructor"
 class AddFeedbackTab(PipelineStep):
     """Add forum_notifier tab to instructor dashboard by adding a new context with feedback data."""
 
-    def run_filter(
-        self, context, template_name
-    ):  # pylint: disable=unused-argument, arguments-differ
+    def run_filter(self, context, template_name):  # pylint: disable=unused-argument, arguments-differ
         """Execute filter that modifies the instructor dashboard context.
         Args:
             context (dict): the context for the instructor dashboard.
@@ -43,9 +42,7 @@ class AddFeedbackTab(PipelineStep):
             }
 
         course = context["course"]
-        template = Template(
-            self.resource_string(f"static/html/{TEMPLATE_CATEGORY}.html")
-        )
+        template = Template(self.resource_string(f"static/html/{TEMPLATE_CATEGORY}.html"))
 
         request = get_current_request()
 
@@ -58,9 +55,7 @@ class AddFeedbackTab(PipelineStep):
         html = template.render(Context(context))
         frag = Fragment(html)
         frag.add_css(self.resource_string(f"static/css/{TEMPLATE_CATEGORY}.css"))
-        frag.add_javascript(
-            self.resource_string(f"static/js/src/{TEMPLATE_CATEGORY}.js")
-        )
+        frag.add_javascript(self.resource_string(f"static/js/src/{TEMPLATE_CATEGORY}.js"))
 
         section_data = {
             "fragment": frag,
@@ -88,9 +83,7 @@ def load_blocks(request, course):
     """
     course_id = str(course.id)
 
-    feedback_blocks = modulestore().get_items(
-        course.id, qualifiers={"category": BLOCK_CATEGORY}
-    )
+    feedback_blocks = modulestore().get_items(course.id, qualifiers={"category": BLOCK_CATEGORY})
 
     blocks = []
 
@@ -172,9 +165,7 @@ def load_xblock_answers(request, students, course_id, block_id, course):
     """
     answers = []
     for user_id, username in students:
-        student_xblock_instance = load_single_xblock(
-            request, user_id, course_id, block_id, course
-        )
+        student_xblock_instance = load_single_xblock(request, user_id, course_id, block_id, course)
         if student_xblock_instance:
             prompt = student_xblock_instance.get_prompt()
             if student_xblock_instance.user_freeform:
