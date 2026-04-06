@@ -4,10 +4,11 @@ Test for the instructor dashboard filters.
 
 from unittest import TestCase
 from unittest.mock import Mock, patch
+
 from django.test.utils import override_settings
 
-
 from feedback.extensions.filters import AddFeedbackTab, load_xblock_answers
+
 
 class TestFilters(TestCase):
     """

@@ -1,5 +1,4 @@
 # pylint: disable=E1101
-# coding: utf-8
 """
 This is an XBlock designed to allow people to provide feedback on our
 course resources, and to think and synthesize about their experience
@@ -7,13 +6,13 @@ in the course.
 """
 
 import html
+import importlib.resources
 import random
 
-import importlib.resources
 import six
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
-from xblock.fields import Scope, Integer, String, List, Float, Boolean
+from xblock.fields import Boolean, Float, Integer, List, Scope, String
 
 from feedback.utils import _
 
@@ -298,7 +297,7 @@ class FeedbackXBlock(XBlock):
         """
         prompt = self.get_prompt(0)
         for idx in range(len(prompt['scale_text'])):
-            prompt['likert{i}'.format(i=idx)] = prompt['scale_text'][idx]
+            prompt[f'likert{idx}'] = prompt['scale_text'][idx]
         frag = Fragment()
 
         prompt.update({
@@ -329,7 +328,7 @@ class FeedbackXBlock(XBlock):
             if item_submission and len(item_submission) > 0:
                 self.prompts[0][item] = html.escape(item_submission)
         for i in range(5):
-            likert = data.get('likert{i}'.format(i=i), None)
+            likert = data.get(f'likert{i}', None)
             if likert and len(likert) > 0:
                 self.prompts[0]['scale_text'][i] = html.escape(likert)
 

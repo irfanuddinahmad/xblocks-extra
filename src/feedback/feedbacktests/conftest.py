@@ -1,6 +1,6 @@
-import pytest
-from mock import Mock
+from unittest.mock import Mock
 
+import pytest
 from workbench.runtime import WorkbenchRuntime
 from xblock.fields import ScopeIds
 from xblock.runtime import DictKeyValueStore, KvsFieldData

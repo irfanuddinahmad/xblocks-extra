@@ -3,16 +3,16 @@ Tests for the FeedbackXBlock that needs to run in Open edX.
 '''
 
 
-import mock
+from unittest import mock
 
 
-class PatchRandomMixin(object):
+class PatchRandomMixin:
     """
     This is a class which will patch random.uniform so that we can
     confirm whether randomization works.
     """
     def setUp(self):
-        super(PatchRandomMixin, self).setUp()
+        super().setUp()
         self.random_patch_value = None
 
         def patched_uniform(min, max):

@@ -2,7 +2,7 @@
 Tests for the Feedback XBlock with heavy mocking.
 """
 
-from mock import Mock
+from unittest.mock import Mock
 
 
 def test_template_content(feedback_xblock):

@@ -7,8 +7,6 @@ https://docs.djangoproject.com/en/2.22/ref/settings/
 """
 from workbench.settings import *  # pylint: disable=wildcard-import
 
-from django.conf.global_settings import LOGGING
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
