@@ -52,19 +52,25 @@ docs = [
     "sphinx-book-theme",
 ]
 
-# XBlock entry points will be added here as xblocks are migrated
-# Example:
-# [project.entry-points."xblock.v1"]
-# foo = "foo_xblock:FooXBlock"
+[project.entry-points."xblock.v1"]
+audio = "audio:AudioXBlock"
 
 # Packages live in src/ but are installed without the src prefix
 # e.g., src/foo_xblock/ is installed as foo_xblock
 [tool.setuptools]
 package-dir = {"" = "src"}
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"*" = [
+    "static/**/*",
+    "templates/**/*",
+    "translations/**/*",
+]
 
 # Ruff configuration
 # https://docs.astral.sh/ruff/configuration/
