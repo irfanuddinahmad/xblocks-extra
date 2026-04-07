@@ -1,1 +1,1 @@
-from .concept import ConceptXBlock
+from .concept import ConceptXBlock as ConceptXBlock

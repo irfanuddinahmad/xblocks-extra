@@ -2,10 +2,9 @@
 can integrate with the LMS more easily than with Studio, so it's in
 many ways an easier environment where to do this."""
 
-
+import importlib.resources
 import json
 
-import importlib.resources
 from xblock.core import XBlock
 from xblock.fields import Scope, String
 from xblock.fragment import Fragment
@@ -17,36 +16,31 @@ except ModuleNotFoundError:
 
 import requests
 
-
 loader = ResourceLoader(__name__)
 
 
 class ConceptXBlock(XBlock):
     """
-    This XBlock allows concept tagging in a course. 
+    This XBlock allows concept tagging in a course.
     """
 
-    server = String(
-           scope = Scope.settings, 
-           help = "Concept map server URL",
-           default = "http://pmitros.edx.org:7000/"
-        )
+    server = String(scope=Scope.settings, help="Concept map server URL", default="http://pmitros.edx.org:7000/")
 
     concept_map = String(
-        scope  = Scope.user_state_summary, # User scope: Global. Block scope: Usage
-        help = "Concept map",
-        default = '{"required":[], "exercised":[], "taught":[]}'
-        )
+        scope=Scope.user_state_summary,  # User scope: Global. Block scope: Usage
+        help="Concept map",
+        default='{"required":[], "exercised":[], "taught":[]}',
+    )
 
     @XBlock.json_handler
     def update_concept_map(self, request, suffix):
         self.concept_map = json.dumps(request)
-        return {'success':True}
+        return {"success": True}
 
     @XBlock.json_handler
     def relay_handler(self, request, suffix):
-        url = self.server+request['suffix']
-        r = requests.get(url, params=request) 
+        url = self.server + request["suffix"]
+        r = requests.get(url, params=request)
         return json.loads(r.text)
 
     def resource_string(self, path):
@@ -58,7 +52,9 @@ class ConceptXBlock(XBlock):
         The primary view of the ConceptXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/concept.html")#.replace("PLACEHOLDER_FOR_CONCEPT_MAP",json.dumps(self.concept_map))
+        html = self.resource_string(
+            "static/html/concept.html"
+        )  # .replace("PLACEHOLDER_FOR_CONCEPT_MAP",json.dumps(self.concept_map))
         cm = self.concept_map
         if not cm:
             cm = '{"required":[], "taught":[], "exercised":[]}'
@@ -70,9 +66,9 @@ class ConceptXBlock(XBlock):
         # an exception, so we're more likely to be able to get far
         # enough to fix it.
         server = self.server
-        if not server: 
+        if not server:
             server = ""
-        frag = Fragment(html.replace("PLACEHOLDER_FOR_CONCEPT_MAP",cm).replace("SERVER", server))
+        frag = Fragment(html.replace("PLACEHOLDER_FOR_CONCEPT_MAP", cm).replace("SERVER", server))
         frag.add_css_url("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css")
         frag.add_css(self.resource_string("static/css/concept.css"))
 
@@ -81,7 +77,7 @@ class ConceptXBlock(XBlock):
 
         frag.add_javascript(self.resource_string("static/js/concept.js"))
 
-        frag.initialize_js('ConceptXBlock')
+        frag.initialize_js("ConceptXBlock")
         return frag
 
     def studio_view(self, context=None):
@@ -96,9 +92,11 @@ class ConceptXBlock(XBlock):
     def workbench_scenarios():
         """A canned scenario for display in the workbench."""
         return [
-            ("ConceptXBlock",
-             """<vertical_demo>
+            (
+                "ConceptXBlock",
+                """<vertical_demo>
                   <Concept server="http://pmitros.edx.org:7000/"> </Concept>
                 </vertical_demo>
-             """),
+             """,
+            ),
         ]
