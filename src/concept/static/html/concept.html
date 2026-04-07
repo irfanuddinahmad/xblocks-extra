@@ -1,0 +1,61 @@
+<script id="lo-template" type="text/x-handlebars-template">
+<div class="lo_drag">
+  <div style="block;background-color: #F0F0F0; height:20px; padding:3px;">
+    <div class="obj_title"> {{title}} </div>
+    <div class="obj_icons"> <a href="SERVER{{title}}"><span  style="display:inline-block;" class="ui-icon ui-icon-pencil"></span></a> <span style="display:inline-block;" class="ui-icon ui-icon-close lo_close"></span> </div>
+  </div>
+  <div class="objective_desc">
+    {{{render}}}
+  </div>
+</div>
+</script>
+
+<script id="initial-concept-map" type="text/x-concept-map">
+PLACEHOLDER_FOR_CONCEPT_MAP
+</script>
+
+<div class="concept_wrapper">
+<div>
+  <div class="header"> Learning objectives </div>
+  <div class="objectives">
+    <div class="subheader">Taught    </div>
+    <ul id="taught" class="obj_drop"> 
+    </ul>
+  </div>
+  <div class="objectives">
+    <div class="subheader">Exercised </div>
+    <ul id="exercised" class="obj_drop">
+    </ul>
+  </div>
+  <div class="objectives">
+    <div class="subheader">Required  </div>
+    <ul id="required" class="obj_drop"> </ul>
+  </div>
+</div>
+
+<div class="bottom">
+  <div class="searchbox">
+    <div class="search">
+      <label for="tags">Search: </label>
+      <input class="search_input" size=16>
+    </div>
+    <div class="search_results">
+    </div>
+  </div>
+  <div class="description">
+    Description
+  </div>
+</div>
+</div>
+
+<!-- This is a hack. 
+//
+// Studio doesn't handle JS fragments correctly (or hardly at all) as of 3/24/2014. 
+// Putting them here makes it happier. But not happy :(
+-->
+<!--script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"/>
+<script src="http://pmitros.edx.org/pmitros/concept.js"/> 
+<script>
+
+</script-->

@@ -1,0 +1,114 @@
+  div.lo_drag {
+    border:1px solid #DDDDDD; 
+    width:250px; 
+    height:55px; 
+    display:inline-block; 
+    background-color: #FCFCFC; 
+    border-radius: 3px; 
+    padding:0px
+    overflow: clip
+  }
+
+  div.objective_desc {
+    width:240px; 
+    height:25px; 
+    display:inline-block; 
+    white-space:nowrap; 
+    overflow:hidden; 
+    text-overflow:ellipsis; 
+    font-size:small; 
+    padding:5px;
+  }
+
+  div {
+     font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
+     color: #444444;
+  }
+
+  p {
+     color: #222222;
+     margin-top:0;
+     padding-top:0;
+  }
+
+  ul.obj_drop {
+    display:inline-block; 
+    height:260px; 
+    width:280px; 
+    border:1px solid; 
+    overflow-y:scroll; 
+    overflow-x:clip;
+    padding-left: 0px;
+  }
+
+  div.search_results {
+    display:inline-block; 
+    height:260px; 
+    width:280px; 
+    border:1px solid; 
+    overflow-y:scroll; 
+    overflow-x:clip;
+    padding-left: 0px;
+  }
+
+  div.subheader { 
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center
+    width:600px;
+  }
+
+  div.concept_wrapper {
+      display:inline-block;
+      width:auto;
+      height:640px;
+  }
+
+  div.description { 
+     padding: 5px; 
+     border: 1px solid #d4d4d4;
+     color: #444444;
+     background-color: #F6F4F0;
+     height:290px;
+     width:587.5px;
+     float: left;
+     margin:5px  0px  0px 3px;
+  }
+
+  div.searchbox { 
+     padding: 5px; 
+     border: 1px solid #d4d4d4;
+     color: #444444;
+     background-color: #F6F4F0;
+     height:290px;
+     width:287.5px;
+     float: left;
+     margin:5px 2px 0px 0px;
+  }
+
+  div.objectives { 
+     padding: 5px; 
+     border: 1px solid #d4d4d4;
+     color: #444444;
+     background-color: #F6F4F0;
+     height:300px;
+     width:290px;
+     float: left;
+     margin:0px;
+  }
+
+  div.bottom {
+    width:940px;
+    height:210px;
+    margin:0px;
+  }
+
+  div.obj_title {
+    display:inline-block; 
+    width:200px;
+  }
+
+  div.obj_icons {
+    display:inline-block;
+  }
+

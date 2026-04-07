@@ -54,6 +54,7 @@ docs = [
 
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
+concept = "concept:ConceptXBlock"
 
 # Packages live in src/ but are installed without the src prefix
 # e.g., src/foo_xblock/ is installed as foo_xblock
