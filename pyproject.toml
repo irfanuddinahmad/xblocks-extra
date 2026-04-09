@@ -127,6 +127,7 @@ omit = [
     "*/tests/*",
     "*/migrations/*",
     "*/__pycache__/*",
+    "*/settings.py",
 ]
 
 [tool.coverage.report]
