@@ -30,6 +30,7 @@ keywords = [
 dependencies = [
     "XBlock",
     "Django>=4.2",
+    "edx-codejail",
 ]
 
 [project.urls]
@@ -46,6 +47,7 @@ test = [
     "pytest>=7.0",
     "pytest-cov",
     "pytest-django",
+    "edx-opaque-keys",
 ]
 docs = [
     "sphinx",
@@ -54,6 +56,7 @@ docs = [
 
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
+sql_grader = "sql_grader:SqlGrader"
 
 # Packages live in src/ but are installed without the src prefix
 # e.g., src/foo_xblock/ is installed as foo_xblock
@@ -67,6 +70,9 @@ exclude = ["tests*"]
 
 [tool.setuptools.package-data]
 "*" = [
+    "conf/**/*",
+    "datasets/**/*",
+    "scenarios/**/*",
     "static/**/*",
     "templates/**/*",
     "translations/**/*",
@@ -107,7 +113,7 @@ indent-style = "space"
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-testpaths = ["tests"]
+testpaths = ["tests", "src"]
 addopts = "-v --tb=short"
 
 # Coverage configuration
@@ -116,7 +122,7 @@ addopts = "-v --tb=short"
 branch = true
 # Source paths will be added as xblocks are migrated
 # Example: source = ["foo_xblock", "bar_xblock"]
-source = []
+source = ["sql_grader"]
 omit = [
     "*/tests/*",
     "*/migrations/*",
