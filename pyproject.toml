@@ -64,10 +64,18 @@ feedbacktest = "feedback.feedbacktests:feedbacktests"
 [tool.setuptools]
 package-dir = {"" = "src"}
 include-package-data = true
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"*" = [
+    "static/**/*",
+    "templates/**/*",
+    "translations/**/*",
+]
 
 [tool.setuptools.package-data]
 "*" = [
