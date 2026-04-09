@@ -2,8 +2,8 @@
 """
 Test basic XBlock display function
 """
-import os
 
+import os
 from unittest import TestCase
 
 from sql_grader.problem import SqlProblem
@@ -13,9 +13,10 @@ class TestGrading(TestCase):
     """
     Test grading of different types of problems
     """
+
     def setUp(self):
         current_folder = os.path.dirname(__file__)
-        sql_file = "{0}/../datasets/rating.sql".format(current_folder)
+        sql_file = f"{current_folder}/../datasets/rating.sql"
         self.database = SqlProblem.create_database(sql_file)
 
     def test_select_returning_matching_results_in_wrong_order(self):
@@ -27,10 +28,7 @@ class TestGrading(TestCase):
         answer_query = "SELECT * FROM Movie order by mID desc;"
         query = "SELECT * FROM Movie order by mID asc;"
         submission_result, answer_result, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=None,
-            is_ordered=True
+            answer_query=answer_query, database=self.database, verify_query=None, is_ordered=True
         ).attempt(query)
         self.assertEqual(error, None)
         self.assertEqual(comparison, False)
@@ -44,10 +42,7 @@ class TestGrading(TestCase):
         answer_query = "SELECT * FROM Movie order by mID desc;"
         query = "SELECT * FROM Movie order by mID asc;"
         submission_result, answer_result, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=None,
-            is_ordered=False
+            answer_query=answer_query, database=self.database, verify_query=None, is_ordered=False
         ).attempt(query)
         self.assertEqual(error, None)
         self.assertEqual(comparison, True)
@@ -62,10 +57,7 @@ class TestGrading(TestCase):
         answer_query = "SELECT * FROM Movie order by mID desc;"
         query = "select * from Movie where mID=101"
         _, _, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=None,
-            is_ordered=False
+            answer_query=answer_query, database=self.database, verify_query=None, is_ordered=False
         ).attempt(query)
         self.assertEqual(error, None)
         self.assertEqual(comparison, False)
@@ -78,10 +70,7 @@ class TestGrading(TestCase):
         answer_query = "SELECT * FROM Movie order by mID desc;"
         query = "select mID from Movie where mID"
         _, _, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=None,
-            is_ordered=False
+            answer_query=answer_query, database=self.database, verify_query=None, is_ordered=False
         ).attempt(query)
         self.assertEqual(error, None)
         self.assertEqual(comparison, False)
@@ -99,10 +88,7 @@ class TestGrading(TestCase):
         """
 
         submission_result, answer_result, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=verify_query,
-            is_ordered=False
+            answer_query=answer_query, database=self.database, verify_query=verify_query, is_ordered=False
         ).attempt(query)
 
         self.assertEqual(error, None)
@@ -127,10 +113,7 @@ class TestGrading(TestCase):
         """
 
         submission_result, answer_result, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=verify_query,
-            is_ordered=False
+            answer_query=answer_query, database=self.database, verify_query=verify_query, is_ordered=False
         ).attempt(query)
 
         self.assertEqual(error, None)
@@ -143,10 +126,7 @@ class TestGrading(TestCase):
         SELECT * FROM Movie where mID < 10;
         """
         submission_result, answer_result, error, comparison = SqlProblem(
-            answer_query=answer_query,
-            database=self.database,
-            verify_query=verify_query,
-            is_ordered=False
+            answer_query=answer_query, database=self.database, verify_query=verify_query, is_ordered=False
         ).attempt(query)
 
         self.assertNotEqual(error, None)
@@ -185,15 +165,14 @@ class TestGrading(TestCase):
             database=self.database,
             verify_query=verify_query,
             modification_query=modification_query,
-            is_ordered=False
+            is_ordered=False,
         ).attempt(query)
         self.assertEqual(error, None)
         self.assertEqual(comparison, True)
         self.assertEqual(submission_result, answer_result)
-        self.assertEqual(submission_result, [
-            (1, '80s movie', 1982, 'Steven Spielberg'),
-            (2, None, 1992, 'David Fincher')
-        ])
+        self.assertEqual(
+            submission_result, [(1, "80s movie", 1982, "Steven Spielberg"), (2, None, 1992, "David Fincher")]
+        )
 
     def test_error_with_invalid_answer_query(self):
         """
@@ -201,10 +180,7 @@ class TestGrading(TestCase):
         contains errors.
         """
         _, _, error, _ = SqlProblem(
-            answer_query="Not a query;",
-            database=self.database,
-            verify_query=None,
-            is_ordered=True
+            answer_query="Not a query;", database=self.database, verify_query=None, is_ordered=True
         ).attempt("SELECT * FROM Movie;")
         self.assertIn("Problem setup incorrectly", error)
         self.assertIn("syntax error", error)
@@ -215,10 +191,7 @@ class TestGrading(TestCase):
         contains errors.
         """
         _, _, error, _ = SqlProblem(
-            answer_query="",
-            database=self.database,
-            verify_query="Not a query;",
-            is_ordered=True
+            answer_query="", database=self.database, verify_query="Not a query;", is_ordered=True
         ).attempt("Not a SQL Query;")
         self.assertIn("Problem setup incorrectly", error)
         self.assertIn("verify_query", error)
@@ -234,7 +207,7 @@ class TestGrading(TestCase):
             database=self.database,
             verify_query="SELECT;",
             modification_query="Not a query;",
-            is_ordered=True
+            is_ordered=True,
         ).attempt("Not a SQL Query;")
         self.assertIn("Problem setup incorrectly", error)
         self.assertIn("modification_query", error)
@@ -246,10 +219,7 @@ class TestGrading(TestCase):
         contains errors.
         """
         _, _, error, _ = SqlProblem(
-            answer_query="SELECT * FROM Movie;",
-            database=self.database,
-            verify_query=None,
-            is_ordered=True
+            answer_query="SELECT * FROM Movie;", database=self.database, verify_query=None, is_ordered=True
         ).attempt("Not a SQL Query;")
         self.assertNotIn("Problem setup incorrectly", error)
         self.assertIn("syntax error", error)
@@ -260,10 +230,7 @@ class TestGrading(TestCase):
         syntactically valid but errors out due to different error.
         """
         _, _, error, _ = SqlProblem(
-            answer_query="",
-            database=self.database,
-            verify_query="select * from Movie",
-            is_ordered=True
+            answer_query="", database=self.database, verify_query="select * from Movie", is_ordered=True
         ).attempt("alter table Movie rename to Movie2")
         self.assertNotIn("Problem setup incorrectly", error)
         self.assertIn("verify_query", error)

@@ -1,6 +1,7 @@
 """
 Handle data modeling for the XBlock
 """
+
 import os
 import sqlite3
 
@@ -10,7 +11,6 @@ except ModuleNotFoundError:
     # For backward compatibility with releases older than Quince.
     from xblockutils.resources import ResourceLoader
 import importlib.resources
-
 
 loader = ResourceLoader(__name__)
 
@@ -30,13 +30,13 @@ class SqlProblem:
 
     # pylint: disable=too-many-arguments,too-many-positional-arguments
     def __init__(
-            self,
-            database=None,
-            answer_query=None,
-            dataset=None,
-            verify_query=None,
-            modification_query=None,
-            is_ordered=True,
+        self,
+        database=None,
+        answer_query=None,
+        dataset=None,
+        verify_query=None,
+        modification_query=None,
+        is_ordered=True,
     ):
         """
         Initialize variables
@@ -60,12 +60,7 @@ class SqlProblem:
         Attempt to answer the problem with the provided query
         """
         if self.answer_error:
-            return (
-                None,
-                None,
-                'Problem setup incorrectly: {}'.format(self.answer_error),
-                False
-            )
+            return (None, None, f"Problem setup incorrectly: {self.answer_error}", False)
         submission_result, error = SqlProblem.run_query(
             self.database,
             query,
@@ -96,7 +91,7 @@ class SqlProblem:
         """
         Create a new in-memory database, initialized via SQL query
         """
-        connection = sqlite3.connect(':memory:', check_same_thread=False)
+        connection = sqlite3.connect(":memory:", check_same_thread=False)
         with connection:
             connection.executescript(query)
         return connection
@@ -108,17 +103,17 @@ class SqlProblem:
 
         This should be run for each request.
         """
-        destination = sqlite3.connect(':memory:', check_same_thread=False)
-        query = ''.join(line for line in source.iterdump())
+        destination = sqlite3.connect(":memory:", check_same_thread=False)
+        query = "".join(line for line in source.iterdump())
         destination.executescript(query)
         return destination
 
     @classmethod
-    def run_query(cls, source, query, verify_query=None,
-                  modification_query=None):
+    def run_query(cls, source, query, verify_query=None, modification_query=None):
         """
         Execute the provided SQL queries against a copy of the database.
         """
+
         def run(database, query, is_single_query):
             result = []
             message = None
@@ -151,15 +146,13 @@ class SqlProblem:
 
         if verify_query:
             if modification_query:
-                _, error = run(database, modification_query,
-                               is_single_query=False)
+                _, error = run(database, modification_query, is_single_query=False)
                 if error:
-                    return None, 'modification_query: {}'.format(error)
+                    return None, f"modification_query: {error}"
 
-            result, error = run(database, verify_query,
-                                is_single_query=True)
+            result, error = run(database, verify_query, is_single_query=True)
             if error:
-                return None, 'verify_query: {}'.format(error)
+                return None, f"verify_query: {error}"
 
         return result, None
 
@@ -175,10 +168,7 @@ class SqlProblem:
         if not is_ordered:
             expected = sorted(expected, key=str)
             actual = sorted(actual, key=str)
-        comparison = all(
-            row_expected == row_actual
-            for row_expected, row_actual in zip(expected, actual)
-        )
+        comparison = all(row_expected == row_actual for row_expected, row_actual in zip(expected, actual, strict=False))
         return comparison
 
 
@@ -186,10 +176,10 @@ def all_datasets():
     """
     Lookup the names of all avaiable datasets (.sql files)
     """
-    dataset_directory = importlib.resources.files('sql_grader') / 'datasets'
+    dataset_directory = importlib.resources.files("sql_grader") / "datasets"
     for _, _, files in os.walk(dataset_directory):
         for fname in files:
-            if fname.endswith('.sql'):
+            if fname.endswith(".sql"):
                 fname = fname[:-4]
                 yield fname
 
@@ -205,7 +195,7 @@ def create_database(database_name):
     """
     Load a new database from a dataset on disk
     """
-    pathname = 'datasets/' + database_name + '.sql'
+    pathname = "datasets/" + database_name + ".sql"
     contents = resource_string(pathname)
     database = SqlProblem.create_database_from_sql(contents)
     return database

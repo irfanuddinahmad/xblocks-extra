@@ -2,6 +2,7 @@
 """
 Test basic XBlock display function
 """
+
 from unittest import TestCase
 from unittest.mock import Mock
 
@@ -15,7 +16,7 @@ def make_an_xblock(**kwargs):
     """
     Helper method that creates a Free-text Response XBlock
     """
-    course_id = CourseLocator('foo', 'bar', 'baz')
+    course_id = CourseLocator("foo", "bar", "baz")
     runtime = Mock(
         course_id=course_id,
         service=Mock(
@@ -45,5 +46,5 @@ class TestRender(TestCase):
         student_view = self.xblock.student_view()
         html = student_view.content
         self.assertIsNotNone(html)
-        self.assertNotEqual('', html)
-        self.assertIn('sql_grader_block', html)
+        self.assertNotEqual("", html)
+        self.assertIn("sql_grader_block", html)

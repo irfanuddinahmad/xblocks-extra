@@ -1,6 +1,7 @@
 """
 Mixin workbench behavior into XBlocks
 """
+
 try:
     from xblock.utils.resources import ResourceLoader
 except ModuleNotFoundError:

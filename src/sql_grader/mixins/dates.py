@@ -1,6 +1,7 @@
 """
 Mixin date-related functionality
 """
+
 import datetime
 
 
@@ -17,8 +18,8 @@ class EnforceDueDates:
         """
         # These values are pulled from platform.
         # They are defaulted to None for tests.
-        due = getattr(self, 'due', None)
-        graceperiod = getattr(self, 'graceperiod', None)
+        due = getattr(self, "due", None)
+        graceperiod = getattr(self, "graceperiod", None)
         # Calculate the current DateTime so we can compare the due date to it.
         # datetime.utcnow() returns timezone naive date object.
         now = datetime.datetime.utcnow()
