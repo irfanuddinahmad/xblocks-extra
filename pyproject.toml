@@ -28,8 +28,10 @@ keywords = [
     "xblock",
 ]
 dependencies = [
-    "XBlock",
+    "Xblock[django]",
     "Django>=4.2",
+    "django-crum",
+    "openedx-filters",
     "six"
 ]
 
@@ -42,6 +44,8 @@ Documentation = "https://xblocks-extra.readthedocs.io"
 dev = [
     "build",
     "ruff",
+    "edx-i18n-tools",
+    "Xblock[django]",
 ]
 test = [
     "pytest>=7.0",
@@ -51,6 +55,7 @@ test = [
     "edx-lint",
     "edx-opaque-keys",
     "mock",
+    "xblock-sdk",
 ]
 docs = [
     "sphinx",
@@ -61,6 +66,13 @@ docs = [
 audio = "audio:AudioXBlock"
 imagemodal = "imagemodal.xblocks:ImageModal"
 submit-and-compare = "submit_and_compare.xblocks:SubmitAndCompareXBlock"
+feedback = "feedback.feedback:FeedbackXBlock"
+
+[project.entry-points."xblock.test.v0"]
+feedbacktest = "feedback.feedbacktests:feedbacktests"
+
+[project.entry-points."lms.djangoapp"]
+feedback = "feedback.apps:FeedbackConfig"
 
 # Packages live in src/ but are installed without the src prefix
 # e.g., src/foo_xblock/ is installed as foo_xblock
@@ -116,6 +128,7 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 testpaths = ["tests"]
 addopts = "-v --tb=short"
+DJANGO_SETTINGS_MODULE = "feedback.settings.test"
 
 # Coverage configuration
 # https://coverage.readthedocs.io/en/latest/config.html
