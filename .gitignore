@@ -216,3 +216,6 @@ __marimo__/
 
 # Sphinx documentation
 docs/_build/
+
+# macOS system files
+**/.DS_Store
