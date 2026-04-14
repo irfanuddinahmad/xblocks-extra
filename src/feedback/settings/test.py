@@ -23,3 +23,5 @@ FEATURES = {
 }
 
 SECRET_KEY = "fake-key"
+
+LMS_ROOT_URL = "https://example.com"
