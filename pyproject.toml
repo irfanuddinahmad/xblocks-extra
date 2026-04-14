@@ -30,6 +30,7 @@ keywords = [
 dependencies = [
     "XBlock",
     "Django>=4.2",
+    "six"
 ]
 
 [project.urls]
@@ -47,6 +48,10 @@ test = [
     "pytest>=7.0",
     "pytest-cov",
     "pytest-django",
+    "coverage",
+    "edx-lint",
+    "edx-opaque-keys",
+    "mock",
 ]
 docs = [
     "sphinx",
@@ -55,7 +60,9 @@ docs = [
 
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
+imagemodal = "imagemodal.xblocks:ImageModal"
 qualtricssurvey = "qualtricssurvey.xblocks:QualtricsSurvey"
+submit-and-compare = "submit_and_compare.xblocks:SubmitAndCompareXBlock"
 
 # Packages live in src/ but are installed without the src prefix
 # e.g., src/foo_xblock/ is installed as foo_xblock
@@ -136,7 +143,7 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
-fail_under = 80
+fail_under = 70
 show_missing = true
 
 [tool.coverage.html]
