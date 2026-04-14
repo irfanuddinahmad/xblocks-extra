@@ -45,7 +45,6 @@ dev = [
     "build",
     "ruff",
     "edx-i18n-tools",
-    "Xblock[django]",
 ]
 test = [
     "edx-opaque-keys",
