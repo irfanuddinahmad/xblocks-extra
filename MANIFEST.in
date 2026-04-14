@@ -1,0 +1,15 @@
+# Exclude development, test, and documentation folders
+prune .github
+prune docs
+prune tests
+
+# Exclude root level configuration and build files
+exclude Makefile
+exclude conftest.py
+exclude .gitignore
+exclude .python-version
+exclude .readthedocs.yaml
+
+# If you want to exclude tests nested inside your xblocks as well
+global-exclude tests/*
+global-exclude test_*.py
