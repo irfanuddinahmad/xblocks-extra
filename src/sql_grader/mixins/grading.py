@@ -46,12 +46,14 @@ def _send_to_codejailservice(code, globals_dict, slug=None):
         * https://github.com/openedx/codejail-service
     """
     endpoint = f"{settings.CODE_JAIL_REST_SERVICE_HOST}/api/v0/code-exec"
-    payload = json.dumps({
-        "code": code,
-        "globals_dict": json_safe(globals_dict),
-        "python_path": [],
-        "slug": slug,
-    })
+    payload = json.dumps(
+        {
+            "code": code,
+            "globals_dict": json_safe(globals_dict),
+            "python_path": [],
+            "slug": slug,
+        }
+    )
     try:
         response = requests.post(
             endpoint,
