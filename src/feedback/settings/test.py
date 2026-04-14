@@ -1,5 +1,24 @@
 """
-Test settings for the feedback xblock.
+Common Test settings for eox_hooks project.
+For more information on this file, see
+https://docs.djangoproject.com/en/2.22/topics/settings/
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/2.22/ref/settings/
 """
 
-from test_settings import *  # pylint: disable=wildcard-import  # noqa: F401, F403
+from workbench.settings import *  # pylint: disable=wildcard-import  # noqa: F403, I001
+from django.conf.global_settings import LOGGING  # noqa: F401
+
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "feedback",
+    "workbench",
+]
+
+FEATURES = {
+    "ENABLE_FEEDBACK_INSTRUCTOR_VIEW": True,
+}
+
+SECRET_KEY = "fake-key"
