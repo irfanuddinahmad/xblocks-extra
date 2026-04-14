@@ -3,8 +3,8 @@ Common test settings for xblocks-extra.
 
 """
 
-from django.conf.global_settings import LOGGING  # noqa: F401
 from workbench.settings import *  # pylint: disable=wildcard-import  # noqa: F403
+from django.conf.global_settings import LOGGING  # noqa: F401
 
 INSTALLED_APPS = [
     "django.contrib.admin",
