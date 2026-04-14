@@ -31,6 +31,7 @@ dependencies = [
     "XBlock",
     "Django>=4.2",
     "edx-codejail",
+    "requests",
     "six"
 ]
 

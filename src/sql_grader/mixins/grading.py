@@ -2,6 +2,7 @@
 Mixin grading-related functionality
 """
 
+import json
 import logging
 import os.path
 
@@ -9,7 +10,9 @@ import os.path
 # We shouldn't need this pylint pragma, but we do...
 # Otherwise, it complains about the code jail import,
 # despite it also being a third-party package.
-from codejail.safe_exec import SafeExecException, safe_exec
+import requests
+from codejail.safe_exec import SafeExecException, json_safe, safe_exec
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from xblock.fields import Boolean, Float, Integer, Scope, String
 from xblock.scorable import ScorableXBlockMixin, Score
@@ -18,6 +21,56 @@ from xblock.scorable import ScorableXBlockMixin, Score
 from ..problem import all_datasets
 
 log = logging.getLogger("sql_grader")
+
+
+def _send_to_codejailservice(code, globals_dict, slug=None):
+    """
+    Execute code via the codejail-service REST API.
+
+    Starting with the Sumac release, Tutor-based Open edX deployments run
+    code-jail executions in a dedicated container (openedx/codejail-service)
+    rather than a local sandbox process.  The platform signals this via the
+    ``ENABLE_CODEJAIL_REST_SERVICE`` Django setting.
+
+    When the REST service is active, the local ``CODE_JAIL.python_bin`` is
+    deliberately set to a non-existent path, so calling ``safe_exec`` directly
+    would crash with ``FileNotFoundError: 'TMPDIR=tmp'`` (a known codejail
+    bug when no sudo user is configured).
+
+    This function mirrors the protocol used by edx-platform's problem XBlock
+    (``xblocks_contrib.problem.capa.safe_exec.remote_exec``), but without
+    pulling in capa-specific dependencies.
+
+    References:
+        * https://github.com/openedx/openedx-platform/issues/36639
+        * https://github.com/openedx/codejail-service
+    """
+    endpoint = f"{settings.CODE_JAIL_REST_SERVICE_HOST}/api/v0/code-exec"
+    payload = json.dumps({
+        "code": code,
+        "globals_dict": json_safe(globals_dict),
+        "python_path": [],
+        "slug": slug,
+    })
+    try:
+        response = requests.post(
+            endpoint,
+            data={"payload": payload},
+            timeout=(
+                getattr(settings, "CODE_JAIL_REST_SERVICE_CONNECT_TIMEOUT", 0.5),
+                getattr(settings, "CODE_JAIL_REST_SERVICE_READ_TIMEOUT", 3.5),
+            ),
+        )
+        response.raise_for_status()
+    except requests.RequestException as err:
+        log.error("Failed to connect to codejail API service: url=%s", endpoint)
+        raise SafeExecException(f"Codejail API Service is unavailable: {err}") from err
+
+    result = response.json()
+    emsg = result.get("emsg")
+    if emsg:
+        raise SafeExecException(emsg)
+    globals_dict.update(result.get("globals_dict", {}))
 
 
 # pylint: disable=too-many-arguments,too-many-positional-arguments
@@ -44,13 +97,19 @@ submission_result, answer_result, error, comparison = SqlProblem(
 ).attempt(query)
 
 """
-    # example from edx-platform's use of codejail:
-    # https://github.com/openedx/edx-platform/blob/master/common/lib/capa/capa/capa_problem.py#L887
-    # we have to include the path to the entire sql_grader package.
     python_path = [os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))]
 
     try:
-        safe_exec(code, results, python_path=python_path, slug="sql_grader")
+        if getattr(settings, "ENABLE_CODEJAIL_REST_SERVICE", False):
+            # Route to the codejail-service REST API.  No python_path is
+            # needed because sql_grader is pip-installed in the sandbox
+            # venv at image build time (via CODEJAIL_EXTRA_PIP_REQUIREMENTS).
+            # The codejail-service v2 API only permits 'python_lib.zip' as a
+            # python_path entry for security reasons.
+            _send_to_codejailservice(code, results, slug="sql_grader")
+        else:
+            # Local codejail sandbox (non-Tutor / native installs).
+            safe_exec(code, results, python_path=python_path, slug="sql_grader")
     except SafeExecException:
         log.exception(query)
         # how should resource limits be communicated to the user?
