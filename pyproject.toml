@@ -126,9 +126,11 @@ indent-style = "space"
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-testpaths = ["tests"]
+testpaths = ["src"]
 addopts = "-v --tb=short"
-DJANGO_SETTINGS_MODULE = "feedback.settings.test"
+DJANGO_SETTINGS_MODULE = "test_settings"
+django_find_project = false
+pythonpath = ["."]
 
 # Coverage configuration
 # https://coverage.readthedocs.io/en/latest/config.html
