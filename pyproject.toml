@@ -44,6 +44,7 @@ dev = [
     "ruff",
 ]
 test = [
+    "edx-opaque-keys",
     "pytest>=7.0",
     "pytest-cov",
     "pytest-django",
@@ -60,6 +61,7 @@ docs = [
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
 imagemodal = "imagemodal.xblocks:ImageModal"
+qualtricssurvey = "qualtricssurvey.xblocks:QualtricsSurvey"
 submit-and-compare = "submit_and_compare.xblocks:SubmitAndCompareXBlock"
 
 # Packages live in src/ but are installed without the src prefix
@@ -70,10 +72,12 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
-exclude = ["tests*"]
+exclude = ["tests*", "*.tests", "*.tests.*"]
 
 [tool.setuptools.package-data]
 "*" = [
+    "public/**/*",
+    "scenarios/**/*",
     "static/**/*",
     "templates/**/*",
     "translations/**/*",
@@ -114,7 +118,7 @@ indent-style = "space"
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-testpaths = ["tests"]
+testpaths = ["tests", "src"]
 addopts = "-v --tb=short"
 
 # Coverage configuration
