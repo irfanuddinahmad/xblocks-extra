@@ -45,9 +45,9 @@ dev = [
     "build",
     "ruff",
     "edx-i18n-tools",
-    "Xblock[django]",
 ]
 test = [
+    "edx-opaque-keys",
     "pytest>=7.0",
     "pytest-cov",
     "pytest-django",
@@ -65,6 +65,7 @@ docs = [
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
 imagemodal = "imagemodal.xblocks:ImageModal"
+qualtricssurvey = "qualtricssurvey.xblocks:QualtricsSurvey"
 submit-and-compare = "submit_and_compare.xblocks:SubmitAndCompareXBlock"
 feedback = "feedback.feedback:FeedbackXBlock"
 
@@ -82,10 +83,12 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
-exclude = ["tests*"]
+exclude = ["tests*", "*.tests", "*.tests.*"]
 
 [tool.setuptools.package-data]
 "*" = [
+    "public/**/*",
+    "scenarios/**/*",
     "static/**/*",
     "templates/**/*",
     "translations/**/*",
@@ -126,7 +129,7 @@ indent-style = "space"
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-testpaths = ["tests"]
+testpaths = ["tests", "src"]
 addopts = "-v --tb=short"
 DJANGO_SETTINGS_MODULE = "feedback.settings.test"
 
