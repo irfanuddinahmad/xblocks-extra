@@ -13,8 +13,11 @@ def test_get_lms_link_importerror(monkeypatch):
     location.course_key = "course-v1:edX+DemoX+2024"
     location.__str__ = lambda self=location: "dummy"
 
-    if "openedx.core.djangoapps.site_configuration.models" in sys.modules:
-        del sys.modules["openedx.core.djangoapps.site_configuration.models"]
+    monkeypatch.setitem(
+        sys.modules,
+        "openedx.core.djangoapps.site_configuration.models",
+        None,
+    )
 
     monkeypatch.setattr("feedback.utils.settings", types.SimpleNamespace(LMS_ROOT_URL="https://example.com"))
 

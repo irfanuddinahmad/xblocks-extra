@@ -1,5 +1,6 @@
 """Utilities for feedback app"""
 
+import sys
 from urllib.parse import urlencode, urlparse, urlunparse
 
 from django.conf import settings
@@ -17,12 +18,19 @@ def get_lms_link_for_item(location, preview=False):
     """
     assert isinstance(location, UsageKey)
 
+    # Hack: Import SiteConfiguration from openedx-platform.
+    # Please note that XBlocks should not import core openedx-platform code. Do not
+    # replicate this pattern elsewhere. If you need information from the platform, it's better
+    # to catch an event, hook into a filter, or define and use an XBlock runtime service.
     try:
         # pylint: disable=import-outside-toplevel
         from openedx.core.djangoapps.site_configuration.models import SiteConfiguration
-
     except ImportError:
-        return None
+        if "unittest" in sys.modules.keys():
+            # Fail silently when testing. We can't install openedx-platform for tests.
+            return None
+        # Otherwise, fail loudly, so that we will notice if the openedx-platform import path changes.
+        raise
 
     lms_base = SiteConfiguration.get_value_for_org(location.org, "LMS_ROOT_URL", settings.LMS_ROOT_URL)
 
