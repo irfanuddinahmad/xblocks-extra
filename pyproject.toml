@@ -28,11 +28,13 @@ keywords = [
     "xblock",
 ]
 dependencies = [
-    "Xblock[django]",
-    "Django>=4.2",
     "django-crum",
+    "Django>=4.2",
+    "edx-codejail",
     "openedx-filters",
-    "six"
+    "requests",
+    "six",
+    "Xblock[django]",
 ]
 
 [project.urls]
@@ -47,14 +49,14 @@ dev = [
     "edx-i18n-tools",
 ]
 test = [
-    "edx-opaque-keys",
-    "pytest>=7.0",
-    "pytest-cov",
-    "pytest-django",
     "coverage",
     "edx-lint",
     "edx-opaque-keys",
+    "edx-opaque-keys",
     "mock",
+    "pytest-cov",
+    "pytest-django",
+    "pytest>=7.0",
     "xblock-sdk",
 ]
 docs = [
@@ -64,10 +66,11 @@ docs = [
 
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
+feedback = "feedback.feedback:FeedbackXBlock"
 imagemodal = "imagemodal.xblocks:ImageModal"
 qualtricssurvey = "qualtricssurvey.xblocks:QualtricsSurvey"
+sql_grader = "sql_grader:SqlGrader"
 submit-and-compare = "submit_and_compare.xblocks:SubmitAndCompareXBlock"
-feedback = "feedback.feedback:FeedbackXBlock"
 
 [project.entry-points."xblock.test.v0"]
 feedbacktest = "feedback.feedbacktests:feedbacktests"
@@ -87,6 +90,8 @@ exclude = ["tests*", "*.tests", "*.tests.*"]
 
 [tool.setuptools.package-data]
 "*" = [
+    "conf/**/*",
+    "datasets/**/*",
     "public/**/*",
     "scenarios/**/*",
     "static/**/*",
@@ -139,11 +144,12 @@ DJANGO_SETTINGS_MODULE = "feedback.settings.test"
 branch = true
 # Source paths will be added as xblocks are migrated
 # Example: source = ["foo_xblock", "bar_xblock"]
-source = []
+source = ["sql_grader"]
 omit = [
     "*/tests/*",
     "*/migrations/*",
     "*/__pycache__/*",
+    "*/settings.py",
 ]
 
 [tool.coverage.report]
