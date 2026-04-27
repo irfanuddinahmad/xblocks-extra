@@ -6,4 +6,6 @@ Step-by-step guides for common tasks.
 .. toctree::
    :maxdepth: 1
 
-   migrating-xblocks
+   migrating-process-operator-guidelines
+   internationalization
+   migration-process-developer-guidelines

@@ -9,6 +9,7 @@ description = "A collection of XBlocks for the Open edX platform that preserve t
 readme = "README.md"
 requires-python = ">=3.12"
 license = "AGPL-3.0"
+license-files = ["LICENSE.txt"]
 authors = [
     {name = "Open edX Project", email = "oscm@openedx.org"},
 ]
@@ -166,6 +167,11 @@ show_missing = true
 
 [tool.coverage.html]
 directory = "htmlcov"
+
+# uv configuration
+# https://docs.astral.sh/uv/reference/settings/
+[tool.uv]
+package = true
 
 # Setuptools SCM configuration
 # https://setuptools-scm.readthedocs.io/
