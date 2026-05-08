@@ -52,7 +52,7 @@ cover/
 
 # Translations
 *.mo
-*.po
+**/conf/locale/**/LC_MESSAGES/*
 *.pot
 
 # Django stuff:
