@@ -45,8 +45,9 @@ Step-by-Step Migration
 
 Check your requirements files and installed environment::
 
-    pip show audio-xblock feedback-xblock openedx-xblock-image-modal \
-              xblock_qualtrics_survey xblock-sql-grader xblock-submit-and-compare
+    pip show audio-xblock feedback-xblock xblock-free-text-response \
+              openedx-xblock-image-modal xblock_qualtrics_survey \
+              xblock-sql-grader xblock-submit-and-compare
 
 Make a note of which packages are present so you know what to remove.
 
@@ -56,8 +57,9 @@ Make a note of which packages are present so you know what to remove.
 Remove every standalone package you identified. You can remove them all at
 once::
 
-    pip uninstall -y audio-xblock feedback-xblock openedx-xblock-image-modal \
-                     xblock_qualtrics_survey xblock-sql-grader xblock-submit-and-compare
+    pip uninstall -y audio-xblock feedback-xblock xblock-free-text-response \
+                     openedx-xblock-image-modal xblock_qualtrics_survey \
+                     xblock-sql-grader xblock-submit-and-compare
 
 3. Install xblocks-extra
 ~~~~~~~~~~~~~~~~~~~~~~~~
