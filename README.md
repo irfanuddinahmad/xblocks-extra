@@ -10,6 +10,7 @@ The following XBlocks have been migrated here from their respective repositories
 
 - [AudioXBlock](src/audio/README.md) migrated [from](https://github.com/openedx-unsupported/AudioXBlock)
 - [FeedbackXBlock](src/feedback/README.rst) migrated [from](https://github.com/openedx/FeedbackXBlock)
+- [Free Text Response XBlock](src/freetextresponse/README.rst) migrated [from](https://github.com/openedx/xblock-free-text-response)
 - [xblock-image-modal](src/imagemodal/README.rst) migrated [from](https://github.com/openedx-unsupported/xblock-image-modal)
 - [xblock-qualtrics-survey](src/qualtricssurvey/README.rst) migrated [from](https://github.com/openedx-unsupported/xblock-qualtrics-survey)
 - [xblock-sql-grader](src/sql_grader/README.rst) migrated [from](https://github.com/openedx/xblock-sql-grader)

@@ -51,9 +51,10 @@ dev = [
 ]
 test = [
     "coverage",
+    "ddt",
     "edx-lint",
     "edx-opaque-keys",
-    "edx-opaque-keys",
+    "lazy",
     "mock",
     "pytest-cov",
     "pytest-django",
@@ -68,6 +69,7 @@ docs = [
 [project.entry-points."xblock.v1"]
 audio = "audio:AudioXBlock"
 feedback = "feedback.feedback:FeedbackXBlock"
+freetextresponse = "freetextresponse.xblocks:FreeTextResponse"
 imagemodal = "imagemodal.xblocks:ImageModal"
 qualtricssurvey = "qualtricssurvey.xblocks:QualtricsSurvey"
 sql_grader = "sql_grader:SqlGrader"
@@ -105,6 +107,7 @@ exclude = ["tests*", "*.tests", "*.tests.*"]
 [tool.ruff]
 line-length = 120
 target-version = "py312"
+src = ["src"]
 
 [tool.ruff.lint]
 select = [
@@ -122,7 +125,6 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = []
 known-third-party = ["django", "xblock"]
 
 [tool.ruff.format]
@@ -145,7 +147,7 @@ DJANGO_SETTINGS_MODULE = "feedback.settings.test"
 branch = true
 # Source paths will be added as xblocks are migrated
 # Example: source = ["foo_xblock", "bar_xblock"]
-source = ["sql_grader"]
+source = ["src"]
 omit = [
     "*/tests/*",
     "*/migrations/*",
