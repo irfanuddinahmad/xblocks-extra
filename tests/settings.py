@@ -1,9 +1,8 @@
 """
-Common Test settings for eox_hooks project.
-For more information on this file, see
-https://docs.djangoproject.com/en/2.22/topics/settings/
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/2.22/ref/settings/
+Shared Django test settings for the xblocks-extra repository.
+
+All XBlocks in this repo share these settings during test runs.
+Add any new XBlock app to INSTALLED_APPS below when migrating it in.
 """
 
 from workbench.settings import *  # pylint: disable=wildcard-import  # noqa: F403, I001

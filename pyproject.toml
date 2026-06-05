@@ -139,7 +139,7 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 testpaths = ["tests", "src"]
 addopts = "-v --tb=short"
-DJANGO_SETTINGS_MODULE = "feedback.settings.test"
+DJANGO_SETTINGS_MODULE = "tests.settings"
 
 # Coverage configuration
 # https://coverage.readthedocs.io/en/latest/config.html
