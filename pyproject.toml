@@ -137,8 +137,8 @@ indent-style = "space"
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-testpaths = ["tests", "src"]
-pythonpath = ["."]
+testpaths = ["src"]
+pythonpath = ["src"]
 addopts = "-v --tb=short"
 DJANGO_SETTINGS_MODULE = "tests.settings"
 
