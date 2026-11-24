@@ -14,6 +14,7 @@ import requests
 from codejail.safe_exec import SafeExecException, json_safe, safe_exec
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from xblock.fields import Boolean, Float, Integer, Scope, String
 from xblock.scorable import ScorableXBlockMixin, Score
 
@@ -216,7 +217,9 @@ class XBlockDataMixin:
     display_name = String(
         display_name=_("Display Name"),
         help=_("The display name for this component."),
-        default=_("SQL Problem"),
+        # A plain str, not a lazy one: XBlock.index_dictionary() puts this default into the
+        # search index as `content_type`, and a lazy string isn't JSON-serializable.
+        default=gettext_noop("SQL Problem"),
         scope=Scope.content,
     )
     dataset = String(

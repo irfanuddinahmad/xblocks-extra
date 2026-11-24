@@ -2,6 +2,7 @@
 Tests for the grading mixins: attempt_safe, Scorable, and XBlockDataMixin
 """
 
+import json
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -218,3 +219,14 @@ class TestXBlockDataMixinContext(TestCase):
         context = self.xblock.provide_context(None)
         self.assertIsInstance(context, dict)
         self.assertIn("display_name", context)
+
+
+class TestIndexDictionary(TestCase):
+    """Test the search-index data, which the platform serializes to JSON."""
+
+    def test_index_dictionary_is_json_serializable(self):
+        xblock = make_an_xblock()
+        index = xblock.index_dictionary()
+        assert index["content_type"] == "SQL Problem"
+        assert isinstance(index["content_type"], str)
+        json.dumps(index)
